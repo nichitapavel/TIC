@@ -1,25 +1,57 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>CabTenCar</title>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.4.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link href="css/prettify.css" type="text/css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.4.4.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript">
-    var map;
-    document.addEventListener("deviceready", function() {
-      var button = document.getElementById("button");
-      button.addEventListener("click", onBtnClicked, false);
-
-      var div = document.getElementById("map_canvas");
-      map = plugin.google.maps.Map.getMap(div);
-    }, false);
-    function onBtnClicked() {
-      map.showDialog();
-    }
-    </script>
+    <script type="text/javascript" src="js/example.js"></script>
+    <script src="js/prettify.js"></script>
   </head>
   <body>
-    <h3>PhoneGap-GoogleMaps-Plugin</h3>
-    <div style="width:100%;height:400px" id="map_canvas"></div>
-    <button id="button">Full Screen</button>
+    <div data-role="page">
+    
+      <header data-role="header"> 
+        <h1 class="ui-title" role="heading">CabTenCar</h1>
+        <div class="ui-btn-left" data-role="controlgroup" data-type="horizontal">
+         <a href="#menulist" data-role="button" data-icon="bullets">menu</a>
+        </div>
+      </header><!-- /header -->
+    
+      <div role="main" class="ui-content jqm-content">
+        <div id='container'></div>
+      </div><!-- /content -->
+    
+    
+      <div data-role="panel" id="menulist" data-position="left" data-display="overlay">
+        <ul data-role="listview">
+          <li data-role="list-divider">Secciones</li>
+          <li action="welcome">Camaras</li>
+          <li action="drawOverlays">Predicción</li>
+          <li action="kmlOverlay">Incidencias</li>
+<!--          <li data-role="list-divider">DEMOS (INDEV)</li>
+          <li action="marker1">Marker 1</li>
+          <li action="marker2">Marker 2</li>
+          <li action="marker3">Marker 3</li>
+          <li action="groundOverlay">Ground Overlay</li>
+          <li action="tileOverlay">Tile Overlay</li>
+          <li action="whereAreYou">Where are you?</li>
+          <li action="mapOptions">Map Options</li>
+          <li action="panBy">map.panBy()</li>
+          <li action="htmlOverlay">Put HTML on the map</li>
+          <li action="customInfoWindow">Custom InfoWindow</li>
+          <li data-role="list-divider">Geocoding</li>
+          <li action="geocoding">Geocoding</li>
+          <li action="reverse_geocoding">Reverse Geocoding</li>-->
+        </ul>
+      </div><!-- /menu panel -->
+    
+    </div><!-- /page -->
   </body>
 </html>
