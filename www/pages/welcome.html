@@ -77,10 +77,22 @@
   left: 24px;
   top: 28px;
 }
+
+#viewer{
+  display: none;
+  position: fixed;
+  width: 200px;
+  height: auto;
+  z-index: 1000;
+  top: 50px;
+  right: 10px;
+}
 </style>
 <div id="map_canvas">
   <button id="demoBtn">Localizame</button>
 </div>
+
+<div id="viewer"></div>
 
 <script type="text/javascript">
 var timer = null;
@@ -101,24 +113,21 @@ $(document).one("pageLoad", function(event, map) {
       'zoom': 0,
       'tilt': 0
     });
-    
+
+    readCameras(map);
+
     map.getMyLocation({
       enableHighAccuracy: true
     }, function(location) {
       map.addMarker({
         'position': location.latLng,
-        "mytitle": ["Hello Google Map", "for PhoneGap &", "Apache Cordova!"].join("\n")
+        "title": "Esta es su ubicación."
       }, function(marker) {
-        marker.on(plugin.google.maps.event.MARKER_CLICK, onMarkerClicked);
-        
+
         map.animateCamera({
           'target': location.latLng,
           'zoom': 17,
           'tilt': 80
-        }, function() {
-          setTimeout(function() {
-            marker.trigger(plugin.google.maps.event.MARKER_CLICK);
-          }, 1500);
         });
       }, function(error) {
         alert(error.message);
@@ -127,14 +136,41 @@ $(document).one("pageLoad", function(event, map) {
     });
   });
 });
-function onMarkerClicked() {
-  var marker = this;
-  var map = marker.getMap();
-  if (!myInfo) {
-    myInfo = createMyInfo(marker);
-  }
-  
+
+function readCameras(map){
+  $.getJSON('JSON_v1.json', function(data) {
+      console.log(data);
+      var cameras = data.CAMARA;
+      for (var key in cameras){
+        console.log(cameras[key].ALIAS);
+        addCamera(map,cameras[key]);
+      }
+  });
 }
+
+function addCamera(map, data) {
+  var latlng = new plugin.google.maps.LatLng(data.LAT,data.LON);
+  var marker = map.addMarker({
+    'position': latlng,
+    'icon': 'www/images/camera.png',
+    'title': data.ALIAS,
+    'html': '<img src="'+data.URL+'" width=200>'
+  }, function(marker) {
+    marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function() {
+      $("#viewer").empty();      
+      $("#viewer").append(marker.get("html"));
+      $("#viewer").fadeIn(150);
+    });
+  });
+}
+
+function addMarker(map, latLng) {
+map.addMarker({
+  'position': latLng,
+  'title': "Tu ubicación actual es esta ;)"
+  });
+}
+
 
 function createMyInfo(marker) {
   
@@ -155,7 +191,7 @@ function createMyInfo(marker) {
     });
   };
   timer = setInterval(updatePosition, 200);
-  
+
   var removeInfoWnd = function() {
     clearInterval(timer);
     frame.remove();
