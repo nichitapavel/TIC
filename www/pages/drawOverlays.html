@@ -1,29 +1,48 @@
+<style type="text/css">
+
+
+#map_canvas {
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 43px);
+  border: 0;
+}
+@media only screen and (orientation:portrait) {
+  /* For portrait layouts only */
+  #map_canvas {
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 33%;
+  }
+
+}
+
+@media only screen and (orientation:landscape) {
+  /* For landscape layouts only */
+ #map_canvas {
+    top: 50px;
+    left: 50%;
+    right: 0;
+    bottom: 5%;
+  }
+}
+</style>
 <div id="map_canvas"></div>
-<div data-role="tabs" id="tabs">
-  <div data-role="navbar">
-    <ul>
-      <li><a id="polyline" href="#one" data-ajax="false">Polyline</a></li>
-      <li><a id="polygon" href="#two" data-ajax="false">Polygon</a></li>
-      <li><a id="circle" href="#three" data-ajax="false">Circle</a></li>
-    </ul>
-  </div>
-</div>
 <script type="text/javascript">
 
 $(document).one("pageLoad", function(event, map) {
+  var latlng = new plugin.google.maps.LatLng(28.3166663,-16.5666667);
+  map.clear();
+  map.animateCamera({
+    'target': latlng,
+    'zoom': 9,
+    'tilt': 80
+  });
   $("#polyline").click(function() {
     map.clear();
     drawPolyline(map);
   });
-  $("#polygon").click(function() {
-    map.clear();
-    drawPolygon(map);
-  });
-  $("#circle").click(function() {
-    map.clear();
-    drawCircle(map);
-  });
-  
   $("#polyline").click();
 });
 
@@ -52,60 +71,5 @@ function drawPolyline(map) {
     });
   });
 }
-function drawPolygon (map) {
-  const GORYOKAKU_POINTS = [
-    new plugin.google.maps.LatLng(41.79883, 140.75675),
-    new plugin.google.maps.LatLng(41.799240000000005, 140.75875000000002),
-    new plugin.google.maps.LatLng(41.797650000000004, 140.75905),
-    new plugin.google.maps.LatLng(41.79637, 140.76018000000002),
-    new plugin.google.maps.LatLng(41.79567, 140.75845),
-    new plugin.google.maps.LatLng(41.794470000000004, 140.75714000000002),
-    new plugin.google.maps.LatLng(41.795010000000005, 140.75611),
-    new plugin.google.maps.LatLng(41.79477000000001, 140.75484),
-    new plugin.google.maps.LatLng(41.79576, 140.75475),
-    new plugin.google.maps.LatLng(41.796150000000004, 140.75364000000002),
-    new plugin.google.maps.LatLng(41.79744, 140.75454000000002),
-    new plugin.google.maps.LatLng(41.79909000000001, 140.75465),
-    new plugin.google.maps.LatLng(41.79883, 140.75673)
-  ];
-  map.addPolygon({
-    'points': GORYOKAKU_POINTS,
-    'strokeColor' : '#AA00FF',
-    'strokeWidth': 5,
-    'fillColor' : '#880000'
-  }, function(polygon) {
 
-    map.moveCamera({
-      'target': polygon.getPoints()
-    });
-    
-    polygon.on(plugin.google.maps.event.OVERLAY_CLICK, function() {
-      polygon.setFillColor("blue");
-      polygon.setStrokeColor("green");
-      polygon.setStrokeWidth(10);
-    });
-  });
-}
-function drawCircle (map) {
-  const GOOGLE = new plugin.google.maps.LatLng(37.422858, -122.085065);
-
-  map.addCircle({
-    'center': GOOGLE,
-    'radius': 300,
-    'strokeColor' : '#AA00FF',
-    'strokeWidth': 5,
-    'fillColor' : '#880000'
-  }, function(circle) {
-    circle.on(plugin.google.maps.event.OVERLAY_CLICK, function() {
-      circle.setFillColor("blue");
-      circle.setStrokeColor("red");
-      circle.setStrokeWidth(10);
-    });
-  });
-
-  map.moveCamera({
-    'target': GOOGLE,
-    'zoom': 14
-  });
-}
 </script>

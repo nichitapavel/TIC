@@ -73,8 +73,15 @@ function loadPage(map, pageName) {
     }
     
     map.clear();
+    map.setTrafficEnabled(true);
     map.off();
-    
+    var latlng = new plugin.google.maps.LatLng(28.3166663,-16.5666667);
+    map.moveCamera({
+      'target': latlng,
+      'zoom': 9,
+      'tilt': 30
+    });
+
     // Embed a map into the div tag.
     var div = $("#map_canvas")[0];
     if (div) {

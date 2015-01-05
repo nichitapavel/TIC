@@ -1,56 +1,61 @@
+<style type="text/css">
+
+
+#map_canvas {
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 43px);
+  border: 0;
+}
+@media only screen and (orientation:portrait) {
+  /* For portrait layouts only */
+  #map_canvas {
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 33%;
+  }
+
+}
+
+@media only screen and (orientation:landscape) {
+  /* For landscape layouts only */
+ #map_canvas {
+    top: 50px;
+    left: 50%;
+    right: 0;
+    bottom: 5%;
+  }
+}
+</style>
+
 <div id="map_canvas"></div>
-<div data-role="tabs" id="tabs">
-  <div data-role="navbar">
-    <ul>
-      <li><a id="marker" href="#one" data-ajax="false">Marker</a></li>
-      <li><a id="polyline" href="#two" data-ajax="false">Polyline</a></li>
-      <li><a id="polygon" href="#three" data-ajax="false">Polygon</a></li>
-    </ul>
-  </div>
-</div>
 <script type="text/javascript">
 
 $(document).one("pageLoad", function(event, map) {
-  $("#polyline").click(function() {
-    loadKml(map, "www/kml/polyline.kml");
+  var latlng = new plugin.google.maps.LatLng(28.3166663,-16.5666667);
+  map.clear();
+  map.animateCamera({
+    'target': latlng,
+    'zoom': 9,
+    'tilt': 80
   });
-  $("#marker").click(function() {
+ $("#marker").click(function() {
     loadKml(map, "www/kml/marker.kml");
-  });
-  $("#polygon").click(function() {
-    loadKml(map, "www/kml/polygon.kml");
   });
   $("#marker").click();
 });
 
 function loadKml(map, url) {
-  map.clear();
-  map.setZoom(0);
-
-  //Load the kml file
+   //Load the kml file
   map.addKmlOverlay({
     url: url,
     preserveViewport: false,
     animation: true
   }, function(kmlLayer) {
     kmlLayer.on(plugin.google.maps.event.OVERLAY_CLICK, function(overlay, latLng) {
-      switch (overlay.type) {
-        case "Marker":
-          overlay.setSnippet("Marker clicked!");
-          overlay.showInfoWindow();
-          break;
-        case "Polygon":
-          overlay.setFillColor("red");
-          break;
-        case "Polyline":
-          var width = overlay.getWidth();
-          overlay.setWidth(10);
-          setTimeout(function() {
-            overlay.setWidth(width);
-          }, 3000);
-          break;
-      }
-      
+      overlay.setSnippet("Marker clicked!");
+      overlay.showInfoWindow();
     });
   });
 }

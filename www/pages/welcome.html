@@ -106,14 +106,15 @@ $(document).one("pageLoad", function(event, map) {
   
   $("#demoBtn").click(function() {
     $("#infoWnd_frame").trigger("remove");
+    var latlng = new plugin.google.maps.LatLng(28.3166663,-16.5666667);
     
     map.clear();
     
     map.moveCamera({
-      'zoom': 0,
-      'tilt': 0
+      'target': latlng,
+      'zoom': 9,
+      'tilt': 30
     });
-
     readCameras(map);
 
     map.getMyLocation({
