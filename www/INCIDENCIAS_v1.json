@@ -1,0 +1,40 @@
+{ "markers" :
+	[
+		{
+			"id": "123456789",
+			"LON": "-16.87115278",
+			"LAT": "28.36125556",
+			"DateTime": "13:01 - 05/02/2013",
+			"icon": "http://cic.tenerife.es/e-Traffic3/img/icon/INCIDmapCORTEnegr.png",
+			"Type": "CARRETERA CORTADA",
+			"Family": "OBRAS EN CARRETERA",
+			"Road": "TF-445 Buenavista a Faro Teno",
+			"Pk": "3.0",
+			"Description": "Carretera cortada sin que se permita la circulación de ningún tipo"
+		},
+		{
+			"id": "123123",
+			"LON": "-16.45081667",
+			"LAT": "28.38704722",
+			"DateTime": "14:05 - 25/11/2014",
+			"icon": "http://cic.tenerife.es/e-Traffic3/img/icon/INCIDmapRETEroj.png",
+			"Type": "CARRETERA CORTADA",
+			"Family": "METEOROLOGICA",
+			"Road": "TF-24 La Laguna al Portillo",
+			"Pk": "24.0",
+			"Description": "Carretera cortada por hielo y nieve"
+		},
+		{
+			"id": "12312334",
+			"LON": "-16.31902778",
+			"LAT": "28.48156389",
+			"DateTime": "14:05 - 28/11/2014",
+			"icon": "http://cic.tenerife.es/e-Traffic3/img/icon/INCIDmapRETEnegr.png",
+			"Type": "RETENCIONES",
+			"Family": "ACCIDENTE",
+			"Road": "TF-5 Autopista del norte",
+			"Pk": "9.0",
+			"Description": "Fuertes retenciones a la altura del padre Anchieta"
+		},
+	]
+}
