@@ -139,7 +139,7 @@ $(document).one("pageLoad", function(event, map) {
 });
 
 function readCameras(map){
-  $.getJSON('JSON_v1.json', function(data) {
+  $.getJSON('http://banot.etsii.ull.es/alu4113/Camaras.json', function(data) {
       console.log(data);
       var cameras = data.CAMARA;
       for (var key in cameras){

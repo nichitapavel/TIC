@@ -27,35 +27,69 @@
     bottom: 5%;
   }
 }
+#demoBtn {
+  position: absolute !important;
+  left: 20% !important;
+  width: 60% !important;
+  bottom: 5% !important;
+}
+#viewer{
+  background-color: rgba(255,255,255,0.5);
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: auto;
+  z-index: 1000;
+  top: 50px;
+  right: 0px;
+}
 </style>
 
-<div id="map_canvas"></div>
+<div id="map_canvas">
+  <button id="demoBtn">Actualizar</button>
+</div>
+
+<div id="viewer"></div>
+
 <script type="text/javascript">
 
 $(document).one("pageLoad", function(event, map) {
-  var latlng = new plugin.google.maps.LatLng(28.3166663,-16.5666667);
-  map.clear();
-  map.animateCamera({
-    'target': latlng,
-    'zoom': 9,
-    'tilt': 80
+  readCameras(map);
+  $("#demoBtn").click(function() {
+    var latlng = new plugin.google.maps.LatLng(28.3166663,-16.5666667);
+    map.clear();
+    map.animateCamera({
+      'target': latlng,
+      'zoom': 9,
+      'tilt': 80
+    });
+    readCameras(map);
   });
- $("#marker").click(function() {
-    loadKml(map, "www/kml/marker.kml");
-  });
-  $("#marker").click();
 });
 
-function loadKml(map, url) {
-   //Load the kml file
-  map.addKmlOverlay({
-    url: url,
-    preserveViewport: false,
-    animation: true
-  }, function(kmlLayer) {
-    kmlLayer.on(plugin.google.maps.event.OVERLAY_CLICK, function(overlay, latLng) {
-      overlay.setSnippet("Marker clicked!");
-      overlay.showInfoWindow();
+
+function readCameras(map){
+  $.getJSON('http://banot.etsii.ull.es/alu4113/Incidencias.json',function(data) {
+      var cameras = data.markers;
+      for (var key in cameras){
+        console.log(cameras[key].Type);
+        addCamera(map,cameras[key]);
+      }
+  });
+}
+
+function addCamera(map, data) {
+  var latlng = new plugin.google.maps.LatLng(data.LAT,data.LON);
+  var marker = map.addMarker({
+    'position': latlng,
+    'icon': data.icon,
+    'title': data.Type,
+    'html': '<h3>'+data.Type+'</h3><h4>'+data.Family+'</h4><hr><p>'+data.Description+'</p>'
+  }, function(marker) {
+    marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, function() {
+      $("#viewer").empty();      
+      $("#viewer").append(marker.get("html"));
+      $("#viewer").fadeIn(150);
     });
   });
 }
